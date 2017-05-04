@@ -9,7 +9,7 @@ Frontend proxy server with Basic Authentication for Amazon S3 written by Node.js
     $ cd s3-basic-auth-proxy
     $ npm install
     $ AWS_ACCESS_KEY_ID=<id> \
-    > AWS_SECRET_ACCESS_KEY=<secret> \
+    > AWS_SECRET_KEY=<secret> \
     > S3_REGION=<region> \
     > S3_BUCKET=<bucket> \
     > AUTH_USER=<user> \
@@ -22,7 +22,7 @@ Then use http://localhost:3001/ instead of http://bucket.s3.amazon.com/.
 
 - PORT : Port of Proxy Server (default: 3001)
 - AWS_ACCESS_KEY_ID : AWS Access Key ID (required)
-- AWS_SECRET_ACCESS_KEY : AWS Secret Access Key (required)
+- AWS_SECRET_KEY : AWS Secret Access Key (required)
 - S3_REGION : S3 region (default: ap-northeast-1)
 - S3_BUCKET : S3 Bucket (required)
 - AUTH_USER : Basic Auth Username (required)
