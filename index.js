@@ -18,6 +18,12 @@ if (!basicUser || !basicPassword) {
 }
 const expectedAuthHeader = 'Basic ' + Buffer.from(basicUser + ':' + basicPassword, 'ascii').toString('base64')
 
+// Health Check Endpoint for Load Balancer
+app.get('/health', (req, res) => {
+  res.status(200).send('OK')
+})
+
+// S3 Proxy
 app.get('*', (req, res) => {
   const authHeader = req.get('Authorization') || undefined
   if (authHeader && expectedAuthHeader === authHeader) {
