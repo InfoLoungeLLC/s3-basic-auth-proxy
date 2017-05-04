@@ -39,5 +39,5 @@ app.get('*', (req, res) => {
 })
 
 app.listen(app.get('port'), () => {
-  console.log('NamieAdminProxy is listening on port ' + app.get('port'))
+  console.log('s3-basic-auth-proxy is listening on port ' + app.get('port'))
 })
