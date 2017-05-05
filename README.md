@@ -25,6 +25,8 @@ Then use http://localhost:3001/ instead of http://bucket.s3.amazon.com/.
 - AWS_SECRET_KEY : AWS Secret Access Key (required)
 - S3_REGION : S3 region (default: ap-northeast-1)
 - S3_BUCKET : S3 Bucket (required)
+- INDEX_DOCUMENT: Default index document appended when request url ends with '/'
+- CATCH_DOCUMENT: Default document sent instead of requested one when url is not found on S3 (Convenient for Single Page Applications)
 - AUTH_USER : Basic Auth Username (required)
 - AUTH_PASSWORD : Basic Auth Password (required)
 
