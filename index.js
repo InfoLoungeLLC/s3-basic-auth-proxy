@@ -28,13 +28,33 @@ app.get('*', (req, res) => {
   const authHeader = req.get('Authorization') || undefined
   if (authHeader && expectedAuthHeader === authHeader) {
     // Basic Auth Successed
-    const params = {
+    let key = req.url
+    if (key.endsWith('/')) {
+      key += process.env.INDEX_DOCUMENT || ''
+    }
+    key = key.substring(1)
+    if (key.length === 0) {
+      res.status(404).send('Not Found')
+      return
+    }
+
+    // Get S3 Object and Bypassing
+    let params = {
       Bucket: process.env.S3_BUCKET || '',
-      Key: req.url.substring(1) || 'index.html'
+      Key: key
     }
     s3.getObject(params).createReadStream()
       .on('error', () => {
-        res.status(404).send('Not Found')
+        if (process.env.CATCH_DOCUMENT) {
+          params.Key = process.env.CATCH_DOCUMENT
+          s3.getObject(params).createReadStream()
+            .on('error', () => {
+              res.status(404).send('Not Found')
+            })
+            .pipe(res)
+        } else {
+          res.status(404).send('Not Found')
+        }
       })
       .pipe(res)
   } else {
