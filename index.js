@@ -16,7 +16,9 @@ if (!basicUser || !basicPassword) {
   console.log('AUTH_USER and AUTH_PASSWORD is required.')
   process.exit()
 }
-const expectedAuthHeader = 'Basic ' + Buffer.from(basicUser + ':' + basicPassword, 'ascii').toString('base64')
+const expectedAuthHeader =
+  'Basic ' +
+  Buffer.from(basicUser + ':' + basicPassword, 'ascii').toString('base64')
 
 // Health Check Endpoint for Load Balancer
 app.get('/health', (req, res) => {
@@ -43,11 +45,22 @@ app.get('*', (req, res) => {
       Bucket: process.env.S3_BUCKET || '',
       Key: key
     }
-    s3.getObject(params).createReadStream()
+    s3
+      .getObject(params)
+      .on('httpHeaders', function (statusCode, headers) {
+        res.set({
+          'content-length': headers['content-length'],
+          'content-type': headers['content-type'],
+          'last-modified': headers['last-modified']
+        })
+      })
+      .createReadStream()
       .on('error', () => {
         if (process.env.CATCH_DOCUMENT) {
           params.Key = process.env.CATCH_DOCUMENT
-          s3.getObject(params).createReadStream()
+          s3
+            .getObject(params)
+            .createReadStream()
             .on('error', () => {
               res.status(404).send('Not Found')
             })
