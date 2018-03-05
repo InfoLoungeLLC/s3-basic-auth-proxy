@@ -1,6 +1,6 @@
 {
   "name": "s3-basic-auth-proxy",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,10 +17,10 @@
   "bugs": {
     "url": "https://github.com/InfoLoungeLLC/s3-basic-auth-proxy/issues"
   },
-  "homepage": "https://github.com/InfoLoungeLLC/s3-basic-auth-proxyy#readme",
+  "homepage": "https://github.com/InfoLoungeLLC/s3-basic-auth-proxy#readme",
   "dependencies": {
-    "aws-sdk": "^2.48.0",
-    "express": "^4.15.2"
+    "aws-sdk": "^2.205.0",
+    "express": "^4.16.2"
   },
   "devDependencies": {
     "standard": "^10.0.2"

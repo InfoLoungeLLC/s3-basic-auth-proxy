@@ -45,34 +45,41 @@ app.get('*', (req, res) => {
       Bucket: process.env.S3_BUCKET || '',
       Key: key
     }
-    s3
-      .getObject(params)
+    s3.getObject(params)
       .on('httpHeaders', function (statusCode, headers) {
         res.set({
           'content-length': headers['content-length'],
           'content-type': headers['content-type'],
-          'last-modified': headers['last-modified']
+          'last-modified': headers['last-modified'],
+          'etag': headers['etag']
         })
       })
       .createReadStream()
       .on('error', () => {
         if (process.env.CATCH_DOCUMENT) {
           params.Key = process.env.CATCH_DOCUMENT
-          s3
-            .getObject(params)
+          s3.getObject(params)
+            .on('httpHeaders', function (statusCode, headers) {
+              res.set({
+                'content-length': headers['content-length'],
+                'content-type': headers['content-type'],
+                'last-modified': headers['last-modified'],
+                'etag': headers['etag']
+              })
+            })
             .createReadStream()
             .on('error', () => {
-              res.status(404).send('Not Found')
+              res.type('txt').status(404).send('Not Found')
             })
             .pipe(res)
         } else {
-          res.status(404).send('Not Found')
+          res.type('txt').status(404).send('Not Found')
         }
       })
       .pipe(res)
   } else {
     // Basic Auth Failed
-    res.append('WWW-Authenticate', 'Basic realm="Namie Admin Console"')
+    res.append('WWW-Authenticate', 'Basic realm="Secret Zone"')
     res.status(401).send('Unauthorized')
   }
 })
