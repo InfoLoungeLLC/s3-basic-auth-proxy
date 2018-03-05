@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "standard",
-    "format": "standard --fix" 
+    "format": "standard --fix"
   },
   "repository": {
     "type": "git",
